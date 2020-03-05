@@ -1,12 +1,12 @@
-import React, {component} from 'react'
+import React, {Component} from 'react'
 import CardList from './CardList'
 import {Robots} from './Robots'
 import SearchBox from './SearchBox'
-import { render } from '@testing-library/react'
+
  
 
 
- class App extends component {
+ class App extends Component {
      constructor() {
         
          super()
@@ -16,13 +16,24 @@ import { render } from '@testing-library/react'
          }
      }
      
+      onSearchChange = (event) =>
+      {
+          this.setState({searchfield:event.target.value}) 
+      }
+
+
     render()
     {
+        const filteredRobots = this.state.Robots.filter(Robots => {
+            return Robots.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+        })
+   
+   
         return  (
             <div className='tc'>
             <h1>ROBOFRIENDS</h1>
-            <SearchBox/>
-            <CardList Robots= {this.state.Robots}/>
+            <SearchBox searchChange={this.onSearchChange}/>
+            <CardList Robots= {filteredRobots}/>
             </div>
         );
     }
